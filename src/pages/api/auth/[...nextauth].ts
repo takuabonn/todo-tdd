@@ -15,15 +15,14 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
 
-  // pages: {
-  //   signIn: ""
-  // },
-
   callbacks: {
     async session({ session, user, token }) {
-      console.log(session, user, token);
       // jwtが呼ばれた後に実行されます．
-      return { ...session, ...token }; // JWTではuserは渡されません
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+      session.access_token = token.access_token;
+      return session; // JWTではuserは渡されません
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account?.access_token) token.access_token = account?.access_token;
@@ -31,7 +30,6 @@ export default NextAuth({
     },
 
     async redirect({ url, baseUrl }) {
-      console.log(url, baseUrl);
       return baseUrl;
     },
   },

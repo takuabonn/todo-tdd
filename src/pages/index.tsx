@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { AppBar } from "@/components/AppBar";
+import { TodoPost } from "@/components/dmain/TodoPost";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function Home() {
       </div>
       {session && <button onClick={() => signOut()}>ログアウト</button>} */}
       <AppBar />
+      <TodoPost />
     </>
   );
 }
