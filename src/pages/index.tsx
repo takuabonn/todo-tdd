@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { AppBar } from "@/components/AppBar";
 import { TodoPost } from "@/components/dmain/TodoPost";
+import { TodoList } from "@/components/dmain/TodoList";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function Home() {
       {session && <button onClick={() => signOut()}>ログアウト</button>} */}
       <AppBar />
       <TodoPost />
+      <TodoList />
     </>
   );
 }
