@@ -1,21 +1,14 @@
 import { axiosClient } from "../../../lib/axiosClient";
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { GetResponseData, Todo } from "types/todoType";
 import { useSession } from "next-auth/react";
+import { ActionType } from "../../../lib/hooks/useTodo";
 
-export const TodoList = () => {
-  const [todoList, setTodoList] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const { data: result, status } = await axiosClient.get<GetResponseData>(
-        `/todo`
-      );
-      console.log(result);
-      setTodoList(result.todo_list);
-    };
-    fetch();
-  }, []);
+type PropsType = {
+  todoList: Todo[];
+  dispatch: Dispatch<ActionType>;
+};
+export const TodoList = ({ todoList, dispatch }: PropsType) => {
   return (
     <>
       <div className="w-1/2  mx-auto mt-10  border-1 divide-y"></div>

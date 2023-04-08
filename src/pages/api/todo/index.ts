@@ -17,13 +17,19 @@ export default async function handler(
   if (req.method === "POST") {
     console.log(req.body);
     const { user_id, task } = req.body as TodoRequest;
-    await prisma.todo.create({
+    const savedTodo = await prisma.todo.create({
       data: {
         userId: user_id,
         task: task,
       },
     });
-    res.status(201).json({ status: 201, message: "success" });
+    res.status(201).json({
+      todo: {
+        id: savedTodo.id,
+        task: savedTodo.task!,
+        user_id: savedTodo.userId,
+      },
+    });
   }
 
   if (req.method === "GET") {

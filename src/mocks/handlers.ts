@@ -11,7 +11,13 @@ export const handlers = [
       ctx.set("Content-Type", "application/json"),
       ctx.set("Authorization", `token 123456`),
       ctx.set("timeout", "20000"),
-      ctx.json({ status: 200, message: "success" })
+      ctx.json({
+        todo: {
+          id: "yyy",
+          task: "task2",
+          user_id: "aaa",
+        },
+      })
     );
   }),
   rest.get("http://localhost:3000/api/todo", (req, res, ctx) => {
@@ -20,18 +26,20 @@ export const handlers = [
     ctx.set("Authorization", `token 123456`);
     return res(
       ctx.status(200),
-      ctx.json([
-        {
-          id: 1,
-          task: "task1",
-          user_id: "aaa",
-        },
-        {
-          id: 2,
-          task: "task2",
-          user_id: "aaa",
-        },
-      ])
+      ctx.json({
+        todo_list: [
+          {
+            id: "xxx",
+            task: "task1",
+            user_id: "aaa",
+          },
+          {
+            id: "yyy",
+            task: "task2",
+            user_id: "aaa",
+          },
+        ],
+      })
     );
   }),
 ];

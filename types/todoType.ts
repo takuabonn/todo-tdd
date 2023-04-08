@@ -9,6 +9,5 @@ export type GetResponseData = {
 };
 
 export type PostResponseData = {
-  status: number;
-  message: string;
+  todo: Todo;
 };
