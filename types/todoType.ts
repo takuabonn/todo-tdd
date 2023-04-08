@@ -2,6 +2,7 @@ export type Todo = {
   id: string;
   user_id: string;
   task: string;
+  is_completed: boolean;
 };
 
 export type GetResponseData = {

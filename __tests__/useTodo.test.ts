@@ -11,11 +11,13 @@ describe("useTodo", () => {
           id: "xxx",
           task: "task1",
           user_id: "aaa",
+          is_completed: false,
         },
         {
           id: "yyy",
           task: "task2",
           user_id: "aaa",
+          is_completed: false,
         },
       ])
     );
@@ -28,9 +30,56 @@ describe("useTodo", () => {
           id: "zzz",
           task: "task3",
           user_id: "aaa",
+          is_completed: false,
         },
       });
     });
     expect(result.current.todoState).toHaveLength(3);
+  });
+  test("complete todo", async () => {
+    const { result } = renderHook(() =>
+      useTodo([
+        {
+          id: "xxx",
+          task: "task1",
+          user_id: "aaa",
+          is_completed: false,
+        },
+      ])
+    );
+
+    await act(async () => {
+      const dispatch = result.current.dispatch;
+      dispatch({
+        type: "COMPLETE_TODO",
+        payload: {
+          targetId: "xxx",
+        },
+      });
+    });
+    expect(result.current.todoState[0].is_completed).toBe(true);
+  });
+  test("uncomplete todo", async () => {
+    const { result } = renderHook(() =>
+      useTodo([
+        {
+          id: "xxx",
+          task: "task1",
+          user_id: "aaa",
+          is_completed: false,
+        },
+      ])
+    );
+
+    await act(async () => {
+      const dispatch = result.current.dispatch;
+      dispatch({
+        type: "UN_COMPLETE_TODO",
+        payload: {
+          targetId: "xxx",
+        },
+      });
+    });
+    expect(result.current.todoState[0].is_completed).toBe(false);
   });
 });
