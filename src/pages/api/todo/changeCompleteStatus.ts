@@ -24,7 +24,7 @@ export default async function handler(
       is_completed: is_completed,
     },
   });
-  res.status(201).json({
+  res.status(200).json({
     todo: {
       id: updatedTodo.id,
       task: updatedTodo.task!,
