@@ -1,18 +1,24 @@
 import axios from "axios";
 import { axiosClient } from "../../../lib/axiosClient";
 import { useSession } from "next-auth/react";
-import { useCallback, useRef, useState } from "react";
+import { Dispatch, useCallback, useRef, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { ActionType } from "../../../lib/hooks/useTodo";
+import { PostResponseData, Todo } from "types/todoType";
 
-export const TodoPost = () => {
+type PropsType = {
+  dispatch: Dispatch<ActionType>;
+};
+export const TodoPost = ({ dispatch }: PropsType) => {
   const taskRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession();
 
   const addTodo = useCallback(async () => {
-    const { data, status } = await axiosClient.post("/todo", {
+    const { data, status } = await axiosClient.post<PostResponseData>("/todo", {
       user_id: session?.user.id,
       task: taskRef.current?.value,
     });
+    dispatch({ type: "ADD_TODO", payload: data.todo });
   }, [session]);
 
   return (

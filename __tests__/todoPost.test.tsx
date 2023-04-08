@@ -18,10 +18,11 @@ describe("todoPost", () => {
       status: "unauthenticated",
     });
   });
+  const dispatch = jest.fn();
 
   it("set new task", async () => {
     const user = userEvent.setup();
-    render(<TodoPost />);
+    render(<TodoPost dispatch={dispatch} />);
     const element = screen.getByTestId("task-input");
     await user.type(element, "test1");
 
