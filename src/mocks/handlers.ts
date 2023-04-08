@@ -16,6 +16,7 @@ export const handlers = [
           id: "yyy",
           task: "task2",
           user_id: "aaa",
+          is_completed: false,
         },
       })
     );
@@ -32,11 +33,13 @@ export const handlers = [
             id: "xxx",
             task: "task1",
             user_id: "aaa",
+            is_completed: false,
           },
           {
             id: "yyy",
             task: "task2",
             user_id: "aaa",
+            is_completed: false,
           },
         ],
       })

@@ -28,6 +28,7 @@ export default async function handler(
         id: savedTodo.id,
         task: savedTodo.task!,
         user_id: savedTodo.userId,
+        is_completed: savedTodo.is_completed,
       },
     });
   }
@@ -47,6 +48,7 @@ export default async function handler(
         user_id: todo.userId,
         task: todo.task!,
         id: todo.id,
+        is_completed: todo.is_completed,
       })),
     });
   }
