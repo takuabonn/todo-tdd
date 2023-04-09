@@ -30,6 +30,7 @@ export default function Home({ todoList }: { todoList: Todo[] }) {
     <>
       <AppBar />
       <TodoPost dispatch={dispatch} />
+
       <TodoList todoList={todoState} dispatch={dispatch} />
     </>
   );

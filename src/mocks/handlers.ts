@@ -45,4 +45,23 @@ export const handlers = [
       })
     );
   }),
+  rest.put(
+    "http://localhost:3000/api/todo/changeCompleteStatus",
+    (req, res, ctx) => {
+      ctx.set("Accept", "text/plain, */*");
+      ctx.set("Content-Type", "application/json");
+      ctx.set("Authorization", `token 123456`);
+      return res(
+        ctx.status(200),
+        ctx.json({
+          todo: {
+            id: "1",
+            task: "test1",
+            user_id: "aaa",
+            is_completed: true,
+          },
+        })
+      );
+    }
+  ),
 ];
