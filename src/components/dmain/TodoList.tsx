@@ -3,7 +3,7 @@ import { Dispatch, useCallback, useEffect, useState } from "react";
 import { GetResponseData, Todo } from "types/todoType";
 import { useSession } from "next-auth/react";
 import { ActionType } from "../../../lib/hooks/useTodo";
-
+import { RiDeleteBack2Fill } from "react-icons/ri";
 type PropsType = {
   todoList: Todo[];
   dispatch: Dispatch<ActionType>;
@@ -45,6 +45,10 @@ export const TodoList = ({ todoList, dispatch }: PropsType) => {
     },
     []
   );
+  const onDeleteTask = useCallback(async (id: string) => {
+    await axiosClient.delete(`/todo/${id}`);
+    dispatch({ type: "DELETE_TODO", payload: { targetId: id } });
+  }, []);
   return (
     <>
       <div className="w-1/2  mx-auto mt-10  border-1 divide-y"></div>
@@ -74,8 +78,8 @@ export const TodoList = ({ todoList, dispatch }: PropsType) => {
               <div data-testid={`task-${todo.id}`} className="pl-10 py-1">
                 {todo.task}
               </div>
-              <div>
-                <label className="relative inline-flex items-center cursor-pointer">
+              <div className="">
+                <label className="relative inline-flex cursor-pointer">
                   <input
                     type="checkbox"
                     defaultChecked={todo.is_completed}
@@ -91,6 +95,11 @@ export const TodoList = ({ todoList, dispatch }: PropsType) => {
                     {todo.is_completed ? "完了" : "未完了"}
                   </span>
                 </label>
+                <RiDeleteBack2Fill
+                  onClick={() => onDeleteTask(todo.id)}
+                  data-testid={`delete-task-btn-${todo.id}`}
+                  className="cursor-pointer inline-flex items-center text-sky-900 text-4xl shadow-xl drop-shadow-md rounded py-1"
+                />
               </div>
             </div>
           ))}

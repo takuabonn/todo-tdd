@@ -18,6 +18,12 @@ export type ActionType =
       payload: {
         targetId: string;
       };
+    }
+  | {
+      type: "DELETE_TODO";
+      payload: {
+        targetId: string;
+      };
     };
 
 export function useTodo(initTodoList: Todo[]) {
@@ -37,6 +43,8 @@ export function useTodo(initTodoList: Todo[]) {
             ? { ...todo, is_completed: false }
             : todo
         );
+      case "DELETE_TODO":
+        return state.filter((todo) => todo.id !== action.payload.targetId);
     }
   };
 

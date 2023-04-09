@@ -2,7 +2,7 @@
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { GetResponseData, PostResponseData, Todo } from "types/todoType";
+import { UpdateResponseData } from "types/todoType";
 
 type TodoUpdateRequest = {
   id: string;
@@ -12,7 +12,7 @@ type TodoUpdateRequest = {
 const prisma = new PrismaClient();
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<PostResponseData | GetResponseData>
+  res: NextApiResponse<UpdateResponseData>
 ) {
   console.log(req.body);
   const { id, is_completed } = req.body as TodoUpdateRequest;
