@@ -6,12 +6,19 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { AppBar } from "@/components/AppBar";
+import { TodoPost } from "@/components/dmain/TodoPost";
+import { TodoList } from "@/components/dmain/TodoList";
+import { GetServerSideProps } from "next";
+import { axiosClient } from "../../lib/axiosClient";
+import { GetResponseData, Todo } from "types/todoType";
+import { useTodo } from "../../lib/hooks/useTodo";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({ todoList }: { todoList: Todo[] }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { todoState, dispatch } = useTodo(todoList);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -21,11 +28,20 @@ export default function Home() {
 
   return (
     <>
-      {/* <div className="w-screen h-16 bg-sky-900 text-4xl pl-5 py-2 text-white">
-        TODO
-      </div>
-      {session && <button onClick={() => signOut()}>ログアウト</button>} */}
       <AppBar />
+      <TodoPost dispatch={dispatch} />
+
+      <TodoList todoList={todoState} dispatch={dispatch} />
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // APIやDBからのデータ取得処理などを記載
+  const { data: result, status } = await axiosClient.get<GetResponseData>(
+    `/todo`
+  );
+  return {
+    props: { todoList: result.todo_list },
+  };
+};
