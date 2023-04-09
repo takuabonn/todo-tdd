@@ -82,4 +82,33 @@ describe("useTodo", () => {
     });
     expect(result.current.todoState[0].is_completed).toBe(false);
   });
+  test("delete todo", async () => {
+    const { result } = renderHook(() =>
+      useTodo([
+        {
+          id: "xxx",
+          task: "task1",
+          user_id: "aaa",
+          is_completed: false,
+        },
+        {
+          id: "yyy",
+          task: "task1",
+          user_id: "aaa",
+          is_completed: false,
+        },
+      ])
+    );
+
+    await act(async () => {
+      const dispatch = result.current.dispatch;
+      dispatch({
+        type: "DELETE_TODO",
+        payload: {
+          targetId: "xxx",
+        },
+      });
+    });
+    expect(result.current.todoState.length).toBe(1);
+  });
 });

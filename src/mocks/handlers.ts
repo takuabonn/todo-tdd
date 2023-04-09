@@ -64,4 +64,23 @@ export const handlers = [
       );
     }
   ),
+
+  rest.delete("http://localhost:3000/api/todo/:id", (req, res, ctx) => {
+    return res(
+      // Respond with a 200 status code
+      ctx.status(200),
+      ctx.set("Accept", "text/plain, */*"),
+      ctx.set("Content-Type", "application/json"),
+      ctx.set("Authorization", `token 123456`),
+      ctx.set("timeout", "20000"),
+      ctx.json({
+        todo: {
+          id: "1",
+          task: "task1",
+          user_id: "aaa",
+          is_completed: false,
+        },
+      })
+    );
+  }),
 ];

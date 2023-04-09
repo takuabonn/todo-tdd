@@ -129,4 +129,53 @@ describe("todoList", () => {
     const todoListAfterClick = screen.getByTestId("todo-list-block");
     expect(todoListAfterClick.childElementCount).toBe(1);
   });
+
+  it("delete task", async () => {
+    const { result } = renderHook(() =>
+      useTodo([
+        {
+          id: "1",
+          task: "task1",
+          user_id: "aaa",
+          is_completed: false,
+        },
+        {
+          id: "2",
+          task: "task2",
+          user_id: "aaa",
+          is_completed: false,
+        },
+        {
+          id: "3",
+          task: "task2",
+          user_id: "aaa",
+          is_completed: true,
+        },
+      ])
+    );
+
+    const { rerender } = render(
+      <TodoList
+        todoList={result.current.todoState}
+        dispatch={result.current.dispatch}
+      />
+    );
+
+    const todoListBeforeClick = screen.getByTestId("todo-list-block");
+    expect(todoListBeforeClick.childElementCount).toBe(3);
+
+    const user = userEvent.setup();
+    const toggleButton1 = screen.getByTestId("delete-task-btn-1");
+    await user.click(toggleButton1);
+
+    rerender(
+      <TodoList
+        todoList={result.current.todoState}
+        dispatch={result.current.dispatch}
+      />
+    );
+
+    const todoListAfterClick = screen.getByTestId("todo-list-block");
+    expect(todoListAfterClick.childElementCount).toBe(2);
+  });
 });
